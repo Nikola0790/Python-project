@@ -80,3 +80,114 @@ for i in range(x):
     for j in range(i):
         line = line + "*"
     print(line)
+
+# Write a function multiply(subject, times) that returns the value of the variable subject
+# multiplied by the value of the argument times. 
+# Note what happens if you type a number as the value of argument subject, and what if you type a string.
+print('FUNCTIONS')
+def multiply(subject, times):
+    return subject * times
+print(multiply(5, 5))
+print(multiply(5, "test"))
+
+def power(x, y=2):
+    return x * y
+print(power(5))
+
+def to_celsius(fahrenheit):
+    celsius = (fahrenheit - 32) * 5 / 9
+    return celsius
+print(to_celsius(100))
+
+for a, b in zip([1,2,5], [3,4,6]):
+    print(a, b)
+
+for index, value in enumerate(["a", "b", "c"]):
+    print(index, value)
+
+# Exercise 5
+# Write a function chessboard that takes an optional parameter n. 
+# The standard value of the parameter should be 8. 
+# The function will return a multiline string representing a chessboard composed of # characters and spaces. 
+# The chessboard should have dimensions n x n.
+
+# Example: For n=8, the chessboard should consist of 8 lines, each with 8 characters: alternating # and space.
+
+def chessboard (n):
+    board = ''
+    for i in range(n):
+        line = ''
+        for j in range(n):
+            if (i + j) % 2 == 0:
+                line += "#"
+            else: 
+                line += ' '
+        board += line + "\n"
+    return board
+print(chessboard(8))
+
+#LIST AND TUPLES
+def create_list (x, y):
+    count = 1
+    list = []
+    while count < 5:
+        list.append(x)
+        list.append(y)
+        count += 1
+    
+    return list
+
+print(create_list(1, 2))
+
+person = {
+    "name": "Ana",
+    "age": 17,
+    "city": "Belgrade"
+}
+
+def list_keys(d):
+    list = []
+    for key in d:
+        list.append(key)
+    return list
+
+
+print(list_keys(person))
+
+def find_short_words(list):
+    newList = []
+    for item in list:
+        if len(item) < 5:
+            newList.append(item)
+    return newList
+
+print(find_short_words(['itsy', 'bitsy', 'spider', 'climbed', 'up', 'the', 'waterspout']))
+
+input_dict = {
+    "name": "Han Solo",
+    "role": "smuggler",
+    "movie": "Star Wars"
+}
+
+def message(dictionary):
+    if not all (key in input_dict for key in ['name', 'role', 'movie']):
+        return None
+    else:
+        return "In {}, {} is a {}.".format(dictionary['movie'], dictionary['name'], dictionary['role'])
+
+print(message(input_dict))
+
+#Tommorow Date
+
+import datetime
+
+def tommorow():
+    return datetime.date.today() + datetime.timedelta(days=1)
+
+print(tommorow())
+
+from coderslab import coderslab_welcome
+coderslab_welcome()
+
+from math_tools.functions import quadratic_function
+print(quadratic_function(5, 5, 2, 7))
