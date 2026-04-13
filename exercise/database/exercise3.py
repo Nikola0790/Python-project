@@ -1,0 +1,1 @@
+create_cinemas_db_command = "CREATE DATABASE cinemas_db;"
