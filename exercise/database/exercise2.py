@@ -21,3 +21,14 @@ CREATE TABLE Customers (
     surname VARCHAR(255)
 );
 """
+
+# Write queries that:
+#   display all products from the database exercises_db,
+#   display all orders from database exercises_db,
+#   display all customers from database exercises_db.
+# Write the queries in the appropriate variables in the exercise2.py file.
+
+# Retrieve all data from a table.
+display_all_products = 'SELECT * FROM products;'
+display_all_orders = 'SELECT * FROM orders;'
+display_all_customers = 'SELECT * FROM customers;'
