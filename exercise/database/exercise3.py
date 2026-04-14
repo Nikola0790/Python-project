@@ -20,3 +20,16 @@ add_tickets = "INSERT INTO tickets (quantity, price) VALUES (1, 10.00), (1, 17.5
 select_movies_first_letter_d = "SELECT * FROM movies WHERE name LIKE 'D%';"
 tickets_price_greater_than = "SELECT * FROM tickets WHERE price > 15.50;"
 tickets_number_greater_than_three = "SELECT * FROM tickets WHERE quantity > 3;"
+
+
+# Write a query that will:
+#   delete the movie with id 1,
+#   delete all tickets with price greater than 20,
+#   delete the ticket with id 3,
+#   delete the cinema with id 2.
+
+delete_movie = "DELETE FROM movies WHERE id = 1;"
+delete_tickets = "DELETE FROM tickets WHERE price > 20;"
+delete_ticket_id_three = "DELETE FROM tickets WHERE id = 3;"
+delete_cinema_id_two = "DELETE FROM cinemas WHERE id = 2;"
+update_cinema_name = "UPDATE cinemas SET name = 'TUCKWOOD CINEMA' WHERE name = 'Tuckwood';"
