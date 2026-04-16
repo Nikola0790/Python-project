@@ -32,3 +32,6 @@ CREATE TABLE Customers (
 display_all_products = 'SELECT * FROM products;'
 display_all_orders = 'SELECT * FROM orders;'
 display_all_customers = 'SELECT * FROM customers;'
+
+# Add to the Cinemas table a column that stores the number of seats (integer). Write the query in the file exercise2.py.
+add_column = "ALTER TABLE cinemas ADD number_of_seats INTEGER;"

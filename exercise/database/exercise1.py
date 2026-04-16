@@ -21,3 +21,14 @@ add_new_data = "INSERT INTO customers (id, name, surname) VALUES (1, 'Nikola', '
 
 # Write a query that will delete a product with id 1. Write the query in the file exercise1.py.
 delete_product = "DELETE FROM products WHERE id = 1;"
+
+# Add to the Products table a column that stores the rating of the given product (numeric value with two decimal places). 
+# Write the query in the file exercise1.py.
+add_column = "ALTER TABLE products ADD rating NUMERIC (1,2);"
+
+# Deleting a column
+delete_column = "ALTER TABLE table_name DROP COLUMN column_name;"
+
+# Deleting table & database commands
+delete_table = "DROP TABLE table_name;"
+remove_database = "DROP DATABASE db_name;"
