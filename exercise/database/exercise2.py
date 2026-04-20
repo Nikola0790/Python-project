@@ -35,3 +35,16 @@ display_all_customers = 'SELECT * FROM customers;'
 
 # Add to the Cinemas table a column that stores the number of seats (integer). Write the query in the file exercise2.py.
 add_column = "ALTER TABLE cinemas ADD number_of_seats INTEGER;"
+
+# Exercise 2
+# Create a table named Comments that will allow comments on videos. 
+# The table should contain a content field that will accept arbitrarily long text. 
+# Link it to the Movies table with a one-to-many relationship (a movie can have multiple comments).
+# Add some comments.
+
+#Step 1
+create_table_comments = 'CREATE TABLE comments (comment_id SERIAL NOT NULL, movie_id int NOT NULL, contnet TEXT, PRIMARY KEY(comment_id), FOREIGN KEY(movie_id) REFERENCES movies(id));'
+#Step 2
+add_comments = "INSERT INTO comments (movie_id, contnet) VALUES (2, 'Content11111'),(2, 'Content2'),(2, 'comment111'),(4, 'Comment222');"
+#Step 3
+join_tables_retrive_data = "SELECT * FROM movies JOIN comments ON movies.id=comments.movie_id;"
