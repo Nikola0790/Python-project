@@ -48,3 +48,13 @@ create_table_comments = 'CREATE TABLE comments (comment_id SERIAL NOT NULL, movi
 add_comments = "INSERT INTO comments (movie_id, contnet) VALUES (2, 'Content11111'),(2, 'Content2'),(2, 'comment111'),(4, 'Comment222');"
 #Step 3
 join_tables_retrive_data = "SELECT * FROM movies JOIN comments ON movies.id=comments.movie_id;"
+
+# Exercise 3
+# Create a payment table. It should have the same data as in the exercises from the previous day, 
+# but it should be related to the Ticket table by a one-to-one relationship (this will affect the id column). 
+# The relation between ticket and payment is as follows: the ticket has 1 or 0 payments (it is then unpaid) – payment must be assigned to a ticket.
+
+#Step 1 "Add FOREIGN KEY to payments table"
+update_fk_payments_table = "ALTER TABLE payments ADD CONSTRAINT fk_payments_tickets FOREIGN KEY(id) REFERENCES tickets(id) ON DELETE CASCADE;"
+#Step 2 "Join ticket and payments"
+"SELECT * FROM tickets JOIN payments ON tickets.id = payments.id;"
