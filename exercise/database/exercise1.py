@@ -32,3 +32,22 @@ delete_column = "ALTER TABLE table_name DROP COLUMN column_name;"
 # Deleting table & database commands
 delete_table = "DROP TABLE table_name;"
 remove_database = "DROP DATABASE db_name;"
+
+# Exercise - Link the tables Products and Orders with a many-to-many relationship. 
+# Write some queries that link products to orders.
+
+# Step 1
+create_join_table = "CREATE TABLE order_items (id serial NOT NULL, order_id int NOT NULL, product_id int NOT NULL, PRIMARY KEY(id), FOREIGN KEY(order_id) REFERENCES orders(id), FOREIGN KEY(product_id) REFERENCES products(id));"
+# Step 2
+add_data_to_join_table = "INSERT INTO order_items(order_id, product_id) VALUES(1,1),(2,1),(2,2),(3,2),(3,3);"
+# Step 3
+show_many_to_many_relationship = "SELECT * FROM orders JOIN order_items ON orders.id=order_items.order_id JOIN products ON products.id=order_items.product_id;"
+
+
+#  id |                     description                      | id | order_id | product_id | id |     name      |                description                 | price  | rating
+# ----+------------------------------------------------------+----+----------+------------+----+---------------+--------------------------------------------+--------+--------
+#   1 | Customer order for PC build: Motherboard and RAM kit |  6 |        1 |          1 |  1 | Test product  | Test product description                   | 125.00 |   0.05
+#   2 | Express shipping requested for NVMe SSD upgrade      |  7 |        2 |          1 |  1 | Test product  | Test product description                   | 125.00 |   0.05
+#   2 | Express shipping requested for NVMe SSD upgrade      |  8 |        2 |          2 |  2 | RAM 16GB DDR4 | High-speed 3200MHz dual-channel memory kit |  85.50 |
+#   3 | Bulk order for office workstation components         |  9 |        3 |          2 |  2 | RAM 16GB DDR4 | High-speed 3200MHz dual-channel memory kit |  85.50 |
+#   3 | Bulk order for office workstation components         | 10 |        3 |          3 |  3 | NVMe SSD 1TB  | Gen4 x4 M.2 Internal Solid State Drive     |  55.00 |

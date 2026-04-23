@@ -58,3 +58,26 @@ join_tables_retrive_data = "SELECT * FROM movies JOIN comments ON movies.id=comm
 update_fk_payments_table = "ALTER TABLE payments ADD CONSTRAINT fk_payments_tickets FOREIGN KEY(id) REFERENCES tickets(id) ON DELETE CASCADE;"
 #Step 2 "Join ticket and payments"
 "SELECT * FROM tickets JOIN payments ON tickets.id = payments.id;"
+
+# Exercise 2
+# Join tables Cinemas and Movies through a many-to-many relationship 
+# (a movie can be screened in many cinemas, a cinema can screen many movies).
+# Additionally, name the created table Screening. In addition to the fields that refer to the tables Cinemas and Movies, 
+# it should have a datetime field of the timestamp type.
+# Add several screenings.
+
+# Step 1
+create_join_table_screening = "CREATE TABLE screening(id serial NOT NULL, datetime TIMESTAMP, cinema_id int NOT NULL, movie_id int NOT NULL, PRIMARY KEY(id), FOREIGN KEY(cinema_id) REFERENCES cinemas(id), FOREIGN KEY(movie_id) REFERENCES movies(id));"
+# Step 2
+add_data_to_join_table = "INSERT INTO screening(datetime, cinema_id, movie_id) VALUES('2026-04-24 14:30', 1, 1),('2026-04-24 17:30', 1, 3), ('2026-04-24 20:00', 2, 1),('2026-04-24 20:00', 3, 1), ('2026-04-24 17:00', 3, 3), ('2026-04-24 20:00', 2, 4);"
+# Step 3
+show_many_to_many_relationship = "SELECT * FROM cinemas JOIN screening ON cinemas.id = screening.cinema_id JOIN movies ON movies.id = screening.movie_id;"
+
+#  id |      name       |     address     | number_of_seats | id |      datetime       | cinema_id | movie_id | id |    name    |                                                                                              description                                                                                              | rating
+# ----+-----------------+-----------------+-----------------+----+---------------------+-----------+----------+----+------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------
+#   1 | TUCKWOOD CINEMA | Kneza Milosa 7a |                 |  1 | 2026-04-24 14:30:00 |         1 |        1 |  1 | Terminator | Movie description...                                                                                                                                                                                  |      7
+#   1 | TUCKWOOD CINEMA | Kneza Milosa 7a |                 |  2 | 2026-04-24 17:30:00 |         1 |        3 |  3 | AVATAR     | Jake, a paraplegic marine, replaces his brother on the Navi-inhabited Pandora for a corporate mission. He is accepted by the natives as one of their own, but he must decide where his loyalties lie. |      8
+#   2 | RODA CINEMA     | Pozeska 15      |q              75 |  3 | 2026-04-24 20:00:00 |         2 |        1 |  1 | Terminator | Movie description...                                                                                                                                                                                  |      7
+#   3 | MTS Dvorana     | Decanska 14     |                 |  4 | 2026-04-24 20:00:00 |         3 |        1 |  1 | Terminator | Movie description...                                                                                                                                                                                  |      7
+#   3 | MTS Dvorana     | Decanska 14     |                 |  5 | 2026-04-24 17:00:00 |         3 |        3 |  3 | AVATAR     | Jake, a paraplegic marine, replaces his brother on the Navi-inhabited Pandora for a corporate mission. He is accepted by the natives as one of their own, but he must decide where his loyalties lie. |      8
+#   2 | RODA CINEMA     | Pozeska 15      |              75 |  6 | 2026-04-24 20:00:00 |         2 |        4 |  4 | The Batman | Batman is called to intervene when the mayor of Gotham City is murdered. Soon, his investigation leads him to uncover a web of corruption, linked to his own dark past.                               |      7
