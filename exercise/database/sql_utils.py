@@ -63,5 +63,17 @@ def get_movie():
 
     return render_template("form.html")
 
+# Exercise 5
+# Using Flask, write a page that:
+
+#   will be available at movie/<movie_id>, the movie_id, being the number that specifies the id of the movie,
+#   retrieves information about the movie with the given ID from the database,
+#   displays it on the page.
+
+@app.route("/movie/<movie_id>", methods=['GET'])
+def get_specific_movie(movie_id):
+    movie_data = execute_sql("cinemas_db", f"SELECT * FROM movies WHERE movies.id={movie_id}")
+    return movie_data
+
 if __name__ == "__main__":
     app.run(debug=True)
