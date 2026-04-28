@@ -1,5 +1,5 @@
 from psycopg2 import connect
-from flask import Flask, request, session
+from flask import Flask, request, render_template, session
 
 # Exercise 1
 # Write a function execute_sql that runs any sql code. The function should take two parameters:
@@ -38,11 +38,30 @@ def execute_sql(db_name, sql_query):
 # and then display them on the screen. You can use the code written in the previous exercise.
 
 app = Flask(__name__)
-app.secret_key = "exercises-db"
+# app.secret_key = "exercises-db"
+app.config["SECRET_KEY"] = "Secret-key"
 
 @app.route("/")
 def query_db_call():
     return execute_sql("cinemas_db", "SELECT * FROM movies;")
+
+
+# Exercise 3
+
+@app.route("/movie-form", methods=['GET', 'POST'] )
+def get_movie():
+    if request.method == "POST":
+        movie_name = request.form["movie_name"]
+        movie_description = request.form["movie_description"]
+        movie_rating = request.form["movie_rating"]
+
+        if not movie_name or not movie_description or not movie_rating:
+            return "Error: All fields are required! <a href='/movie-form'>Go Back</a>"
+        
+        execute_sql("cinemas_db", f"INSERT INTO movies(name, description, rating) VALUES ('{movie_name}', '{movie_description}', '{movie_rating}');")
+        return "Movie added successfully! <a href='/movie-form'>Go Back</a>"
+
+    return render_template("form.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
