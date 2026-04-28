@@ -75,5 +75,14 @@ def get_specific_movie(movie_id):
     movie_data = execute_sql("cinemas_db", f"SELECT * FROM movies WHERE movies.id={movie_id}")
     return movie_data
 
+# Exercise 6 (*)
+# Using Flask, write a page that will delete the selected movie with the given id. 
+# The id should be passed in the page address. The page should display information about the deletion of the table entry.
+
+@app.route("/movie/<movie_id>", methods=['DELETE'])
+def delete_movie(movie_id):
+    execute_sql("cinemas_db", f"DELETE FROM movies WHERE movies.id = {movie_id}")
+    return "Movie deleted successfully."
+
 if __name__ == "__main__":
     app.run(debug=True)
