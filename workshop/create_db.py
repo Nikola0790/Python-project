@@ -1,7 +1,7 @@
 from psycopg2 import connect, errors
 
 CREATE_DB = "CREATE DATABASE workshop;"
-CREATE_USER_TABLE = """CREATE TABLE user (
+CREATE_USER_TABLE = """CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(255) UNIQUE,
     hashed_password VARCHAR(80)
@@ -11,12 +11,13 @@ CREATE_MESSAGES_TABLE = """CREATE TABLE messages (
     id SERIAL PRIMARY KEY,
     from_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
     to_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    text TEXT,
     creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 """
 
 DB_USER = "nikola"
-DB_NAME = "posgres"
+DB_NAME = "postgres"
 DB_HOST = "localhost"
 
 try:
