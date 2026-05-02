@@ -8,6 +8,9 @@ class User:
         if password is not None:
             self._hashed_password = self._hash_raw_password(password)
 
+    def __repr__(self):
+        return f"User {self.username} (ID: {self._id}) (Pass: {self.hashed_password})"
+
     @property
     def id(self):
         return self._id
@@ -84,7 +87,7 @@ class User:
 
     def delete(self, cursor):
         sql = "DELETE FROM users WHERE id=%s;"
-        cursor.execute(sql, (self.id))
+        cursor.execute(sql, (self.id,))
         self._id = -1
         return True
 
