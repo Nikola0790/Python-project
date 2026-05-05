@@ -1,12 +1,13 @@
 import argparse
 import bcrypt
 from psycopg2 import connect, errors
-from models import User, Message
+from models import User
 
 def create_user(cursor, username, password):
     print(f"Attempting to create user: {username}")
     if len(password) < 8:
         print("Error: Password must be at least 8 characters long.")
+        return
 
     try:
         new_user = User(username, password)
