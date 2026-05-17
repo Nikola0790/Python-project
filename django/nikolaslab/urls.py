@@ -17,8 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from edu.views import show_number
+from django_1.views import hello, drawn_number
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/<int:number>', show_number),
+    path('hello/', hello),
+    path('random/', drawn_number),
 ]
