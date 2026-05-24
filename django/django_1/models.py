@@ -16,6 +16,7 @@ class Album(models.Model):
     album_title = models.CharField(max_length=255)
     release_year = models.IntegerField()
     rating = models.IntegerField(choices=SCALE, default=0)
+    band = models.ForeignKey(Band, on_delete=models.CASCADE)
 
 class Category(models.Model):
     name = models.CharField(max_length=64)

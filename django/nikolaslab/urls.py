@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from edu.views import show_number
-from django_1.views import hello, drawn_number, random_max_number, random_number, hello_name, articles
+from django_1.views import hello, drawn_number, random_max_number, random_number, hello_name, articles, bands_albums
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,4 +28,5 @@ urlpatterns = [
     path('random/<int:min_number>/<int:max_number>/', random_number),
     path('random/<str:name>/', hello_name),
     path('articles/',articles),
+    path('albums/', bands_albums),
 ]

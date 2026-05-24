@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bands</title>
+</head>
+<body>
+    <h2>Bands:</h2>
+    <ul>
+        {% for album in albums %}
+            <li>
+                <strong>{{ album.album_title }}</strong> - {{album.release_year}}, 
+                <p>Rating: {{album.rating}}</p>
+                <p>{{album.band.name}} - {{album.band.year}} - {{album.band.still_active}}</p>
+            </li>
+        {% empty %}
+            <li>No albums.</li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>

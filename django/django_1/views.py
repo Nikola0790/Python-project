@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Article
+from .models import Article, Band, Album
 import random
 
 def hello(request):
@@ -31,3 +31,12 @@ def articles(request):
     }
 
     return render(request, 'django_1/articles.html', context)
+
+def bands_albums(request):
+    band = Band.objects.get(name='Metallica')
+    bands_albums = band.album_set.all()
+    context = {
+        'albums': bands_albums
+    }
+
+    return render(request, 'django_1/bands.html', context)
