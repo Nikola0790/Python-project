@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import Article
 import random
 
 def hello(request):
@@ -22,3 +23,11 @@ def random_number(request, min_number, max_number):
 
 def hello_name(request, name):
     return HttpResponse(f"Hello {name}")
+
+def articles(request):
+    articles = Article.objects.filter(status="in writing")
+    context = {
+        'articles': articles
+    }
+
+    return render(request, 'django_1/articles.html', context)
