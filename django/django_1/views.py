@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from .models import Article, Band, Album
 import random
 
@@ -44,10 +44,22 @@ def bands_albums(request, number):
     # The double underscore (__) is Django's syntax for "look deeper into the relationship chain." 
     # So 'album_set__song_set' literally translates to: "Follow the band's album set, and then follow those albums' song sets."
     # bands = Band.objects.prefetch_related('album_set__song_set').all()
-    
+
     band = Band.objects.get(id=number)
     context = {
         'band': band,
     }
 
     return render(request, 'django_1/bands.html', context)
+
+def number_range_view(request):
+    if request.method == 'GET':
+        start_num = request.GET.get('start')
+        end_num = request.GET.get('end')
+        numbers = range(int(start_num), int(end_num))
+        context = {
+            "numbers": numbers,
+        }
+        return render(request, 'django_1/numbers.html', context)
+    else:
+        raise Http404
