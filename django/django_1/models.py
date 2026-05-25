@@ -52,3 +52,18 @@ class Song(models.Model):
     title = models.CharField(max_length=128)
     duration = models.DurationField(null=True, blank=True)
     album = models.ForeignKey(Album, on_delete=models.CASCADE)
+
+class Person(models.Model):
+    name = models.CharField(max_length=128)
+    
+    def __str__(self):
+        return self.name
+    
+class Position(models.Model):
+    position_name = models.CharField(max_length=128)
+    salary = models.IntegerField()
+    person = models.OneToOneField(Person, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.position_name} - {self.salary}"
+    
