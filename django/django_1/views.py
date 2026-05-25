@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, Http404
+from django.views.decorators.csrf import csrf_exempt
 from .models import Article, Band, Album
 import random
 
@@ -63,3 +64,60 @@ def number_range_view(request):
         return render(request, 'django_1/numbers.html', context)
     else:
         raise Http404
+
+@csrf_exempt
+def form(request):
+    form_html = """
+        <form action="" method="post">
+            <label>
+                Name:
+                <input type="text" name="user_name">
+            </label>
+            <label>
+                Surname:
+                <input type="text" name="user_surname">
+            </label>
+            <button type="submit">Submit</button>
+        </form>
+        """
+    if request.method == 'GET':
+        return HttpResponse(form_html)
+    elif request.method == 'POST':
+        name = request.POST.get('user_name')
+        surname = request.POST.get('user_surname')
+
+        if name is not None and surname is not None:
+            result = f"Hello, {name} {surname}." + form_html
+            return HttpResponse(result)
+        else:
+            html = "<html><body>Error!</body></html>"
+        return HttpResponse(html)
+    
+@csrf_exempt
+def temp_convert(request):
+    form_html = """
+        <form action="" method="POST">
+            <label>
+                Temperature:
+                <input type="number" min="0.00" step="0.01" name="degrees">
+            </label>
+            <input type="submit" name="conversionType" value="celcToFahr">
+            <input type="submit" name="conversionType" value="FahrToCelc">
+        </form>
+        """
+    if request.method == 'GET':
+        return HttpResponse(form_html)
+    elif request.method == "POST":
+        degrees = request.POST.get('degrees')
+        conversion_type = request.POST.get('conversionType')
+
+        if degrees is not None and conversion_type is not None:
+            if conversion_type == "FahrToCelc":
+                result = f"{(int(degrees) - 32) / 1.8}" + form_html
+                return HttpResponse(result)
+            else:
+                result = f"{int(degrees) * 1.8 + 32}" + form_html
+                return HttpResponse(result)
+        else: 
+            html = "<html><body>Error!</body></html>"
+            return HttpResponse(html)
