@@ -22,6 +22,9 @@ class Category(models.Model):
     name = models.CharField(max_length=64)
     description = models.TextField(null=True)
 
+    def __str__(self):
+        return self.name
+
 class Article(models.Model):
     STATUS_CHOICES = (
         ('in writing', 'in writing'),
@@ -40,3 +43,12 @@ class Article(models.Model):
     )
     publish_date = models.DateField(null=True, blank=True)
     removal_date = models.DateField(null=True, blank=True)
+    category = models.ManyToManyField(Category)
+
+    def __str__(self):
+        return self.title
+
+class Song(models.Model):
+    title = models.CharField(max_length=128)
+    duration = models.DurationField(null=True, blank=True)
+    album = models.ForeignKey(Album, on_delete=models.CASCADE)
