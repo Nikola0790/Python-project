@@ -28,5 +28,5 @@ urlpatterns = [
     path('random/<int:min_number>/<int:max_number>/', random_number),
     path('random/<str:name>/', hello_name),
     path('articles/',articles),
-    path('albums/', bands_albums),
+    path('albums/<int:number>', bands_albums),
 ]

@@ -32,7 +32,7 @@ def articles(request):
 
     return render(request, 'django_1/articles.html', context)
 
-def bands_albums(request):
+def bands_albums(request, number):
     # prefetch_related tells Django: "Hey, I am about to loop through all these bands, their albums, and their songs. 
     # Go to the database right now, grab all of them in bulk, and join them together in Python's memory."
 
@@ -40,12 +40,14 @@ def bands_albums(request):
         #SELECT * FROM django_1_band; (Get all bands)
         #SELECT * FROM django_1_album WHERE band_id IN (...); (Get all albums for those bands)
         #SELECT * FROM django_1_song WHERE album_id IN (...); (Get all songs for those albums)
-        
+
     # The double underscore (__) is Django's syntax for "look deeper into the relationship chain." 
     # So 'album_set__song_set' literally translates to: "Follow the band's album set, and then follow those albums' song sets."
-    bands = Band.objects.prefetch_related('album_set__song_set').all()
+    # bands = Band.objects.prefetch_related('album_set__song_set').all()
+    
+    band = Band.objects.get(id=number)
     context = {
-        'bands': bands,
+        'band': band,
     }
 
     return render(request, 'django_1/bands.html', context)

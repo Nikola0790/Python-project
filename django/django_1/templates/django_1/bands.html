@@ -13,7 +13,7 @@
 
     <h1>Music Database</h1>
 
-    {% for band in bands %}
+    {% comment %} {% for band in bands %} {% endcomment %}
         <div class="band-section">
             <h2>{{ band.name }}</h2>
             <p>Formed: {{ band.year }} | Genre: {{ band.get_genre_display }} | Active: {{ band.still_active|yesno:"Yes,No" }}</p>
@@ -43,9 +43,9 @@
                 <p><em>No albums found for this band.</em></p>
             {% endfor %}
         </div>
-    {% empty %}
-        <p>No bands found in the database.</p>
-    {% endfor %}
+    {% comment %} {% empty %} {% endcomment %}
+        {% comment %} <p>No bands found in the database.</p> {% endcomment %}
+    {% comment %} {% endfor %} {% endcomment %}
 
 </body>
 </html>
