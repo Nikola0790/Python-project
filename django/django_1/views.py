@@ -195,3 +195,51 @@ def show_all_session(request):
         html_content += "</ul>"
             
     return HttpResponse(html_content)
+
+def set_cookie(request):
+    response = HttpResponse('Setting cookies')
+    response.set_cookie("User", "Nikola")
+    return response
+
+def show_cookie(request):
+    if 'User' in request.COOKIES:
+        return HttpResponse(request.COOKIES.get('User'))
+    else:
+        return HttpResponse("Cookie User doesn't exist.")
+
+def delete_cookie(request):
+    if 'User' in request.COOKIES:
+        response = HttpResponse('Cookie deleted.')
+        response.delete_cookie('User')
+        return response
+    
+@csrf_exempt
+def add_to_cookie(request):
+    FORM = """<form action="#" method="POST">
+        <label>
+            Key:
+            <input type="text" name="key">
+        </label>
+        <label>
+            Value:
+            <input type="text" name="value">
+        </label>
+        <input type="submit" name="conversionType">
+        </form>
+        """
+    if request.method == 'GET':
+        return HttpResponse(FORM)
+    elif request.method == 'POST':
+        key = request.POST.get('key')
+        value = request.POST.get('value')
+        response = HttpResponse(f"Cookie added. <a href=''>Add new cookie.</a>")
+        response.set_cookie(key, value)
+        return response
+    
+def show_all_cookies(request):
+    if request.method == 'GET':
+        html_content = "<ul>"
+        for key, value in request.COOKIES.items():
+            html_content += f"<li>Key: {key} - Value: {value}</li>"
+        html_content += "</ul>"
+    return HttpResponse(html_content)
