@@ -121,3 +121,77 @@ def temp_convert(request):
         else: 
             html = "<html><body>Error!</body></html>"
             return HttpResponse(html)
+
+@csrf_exempt
+def set_session(request):
+    request.session['counter'] = 0
+    return HttpResponse('<p>Counter session set.</p>')
+
+@csrf_exempt
+def show_session(request):
+    if 'counter' in request.session:
+        session = request.session.get('counter')
+        request.session['counter'] += 1
+        return HttpResponse(f"<h1>Contents of the session: {session}.</h1>")
+    else:
+        return  HttpResponse("<p>No counter data in session!</p>")
+    
+@csrf_exempt
+def delete_session(request):
+    if 'counter' in request.session:
+        del request.session['counter']
+    
+    return HttpResponse('<p>Counter session removed.</p>')
+
+@csrf_exempt
+def my_view(request):
+    FORM = """<form action="" method="POST">
+        <label>
+            Name:
+            <input type="text" name="name">
+        </label>
+        <input type="submit">
+        </form>
+        """
+    if request.method == 'GET':
+        if 'logged_user' in request.session:
+            return HttpResponse(f"<p>Welcome {request.session.get('logged_user')}</p>")
+        else:    
+            return HttpResponse(FORM)
+    elif request.method == 'POST':
+        request.session['logged_user'] = request.POST.get('name')
+        return HttpResponse(f"<p>Welcome {request.session.get('logged_user')}</p>")
+
+@csrf_exempt
+def add_to_session(request):
+    FORM = """<form action="#" method="POST">
+        <label>
+            Key:
+            <input type="text" name="key">
+        </label>
+        <label>
+            Value:
+            <input type="text" name="value">
+        </label>
+        <input type="submit">
+        </form>
+        """
+    if request.method == "GET":
+        return HttpResponse(FORM)
+    elif request.method == 'POST':
+        key = request.POST.get('key')
+        value = request.POST.get('value')
+        request.session[key] = value
+    return HttpResponse(f"Key Value pair is added. <a href='add-to-session/'>Add new</a>")
+
+def show_all_session(request):
+    if request.method == 'GET':
+        html_content = "<h2>Your Session Data:</h2><ul>"
+        if not request.session.items():
+            html_content += "<li>No data found in the current session.</li>"
+        else:
+            for key, value in request.session.items():
+                html_content += f"<li><strong>{key}:</strong> {value}</li>"
+        html_content += "</ul>"
+            
+    return HttpResponse(html_content)
