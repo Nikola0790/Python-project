@@ -40,6 +40,8 @@ from django_1.views import (
     delete_cookie,
     add_to_cookie,
     show_all_cookies,
+    ViewClassExercise,
+    ViewBands
 )
 
 urlpatterns = [
@@ -66,4 +68,6 @@ urlpatterns = [
     path("delete-cookie/", delete_cookie),
     path("add-to-cookie/", add_to_cookie),
     path("show-all-cookies/", show_all_cookies),
+    path("view-class-exercise/", ViewClassExercise.as_view()),
+    path("bands/", ViewBands.as_view())
 ]

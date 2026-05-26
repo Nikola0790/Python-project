@@ -1,6 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from django.contrib import messages
+from django.views import View
 from .models import Article, Band, Album
 import random
 
@@ -243,3 +246,54 @@ def show_all_cookies(request):
             html_content += f"<li>Key: {key} - Value: {value}</li>"
         html_content += "</ul>"
     return HttpResponse(html_content)
+
+@method_decorator(csrf_exempt, name='dispatch')
+class ViewClassExercise(View):
+    FORM = """
+        <form action="" method="post">
+            <label>
+                Name:
+                <input type="text" name="user_name">
+            </label>
+            <label>
+                Surname:
+                <input type="text" name="user_surname">
+            </label>
+            <button type="submit">Submit</button>
+        </form>
+        """
+    def get(self, request):
+        return HttpResponse(self.FORM)
+    def post(self, request):
+        name = request.POST.get('user_name')
+        surname = request.POST.get('user_surname')
+
+        if name is not None and surname is not None:
+            result = f"Welcome, {name} {surname}." + self.FORM
+            return HttpResponse(result)
+        
+        return HttpResponse(self.FORM)
+    
+class ViewBands(View):
+    def get(self, request):
+        bands = Band.objects.all()
+        context = {
+            'bands': bands,
+        }
+        return render(request, 'django_1/bands2.html', context)
+    
+    def post(self, request):
+        name = request.POST.get('name')
+        year = request.POST.get('year')
+        is_active = request.POST.get('is_active') == 'true'
+        genre = request.POST.get('genre')
+
+        if name and year and genre:
+            Band.objects.create(name=name, year=year, still_active=is_active, genre=int(genre))
+            messages.success(request, f'The band "{name}" was saved successfully to the database!')
+            
+            return redirect(request.path)
+    
+        messages.error(request, 'All fields are required.')
+        bands = Band.objects.all()
+        return render(request, 'django_1/bands2.html', {'bands': bands})
