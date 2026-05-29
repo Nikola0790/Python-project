@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Music Database</title>
+    <style>
+        .band-section { margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 15px; }
+        .album-section { margin-left: 20px; background: #f9f9f9; padding: 10px; margin-top: 10px; }
+        .song-list { margin-left: 40px; color: #555; }
+    </style>
+</head>
+<body>
+
+    <h1>Music Database</h1>
+
+    {% comment %} {% for band in bands %} {% endcomment %}
+        <div class="band-section">
+            <h2>{{ band.name }}</h2>
+            <p>Formed: {{ band.year }} | Genre: {{ band.get_genre_display }} | Active: {{ band.still_active|yesno:"Yes,No" }}</p>
+
+            <h3>Albums:</h3>
+            {% for album in band.album_set.all %}
+                <div class="album-section">
+                    <strong>{{ album.album_title }}</strong> ({{ album.release_year }}) - Rating: {{ album.rating }}/5
+                    
+                    <h4>Songs:</h4>
+                    <ul class="song-list">
+                        {% for song in album.song_set.all %}
+                            <li>
+                                🎵 <strong>{{ song.title }}</strong> 
+                                {% if song.duration %}
+                                    <small>({{ song.duration }})</small>
+                                {% else %}
+                                    <small>(Duration not set)</small>
+                                {% endif %}
+                            </li>
+                        {% empty %}
+                            <li><em>No songs added to this album yet.</em></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% empty %}
+                <p><em>No albums found for this band.</em></p>
+            {% endfor %}
+        </div>
+    {% comment %} {% empty %} {% endcomment %}
+        {% comment %} <p>No bands found in the database.</p> {% endcomment %}
+    {% comment %} {% endfor %} {% endcomment %}
+
+</body>
+</html>

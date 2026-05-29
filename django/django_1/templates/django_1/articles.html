@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Articles</title>
+</head>
+<body>
+    <h2>All articles:</h2>
+    <ul>
+        {% for article in articles %}
+            <li>
+                <strong>{{ article.title }}</strong> - {{ article.author }}, 
+                date added: {{ article.date_added|date:"F d, Y" }}
+                <p>{{article.content}}</p>
+            </li>
+        {% empty %}
+            <li>No articles are currently being written.</li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>

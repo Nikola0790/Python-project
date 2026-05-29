@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Music Database</title>
+    <style>
+        .band-section { margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 15px; }
+    </style>
+</head>
+<body>
+    <h1>Music Database</h1>
+    {% for band in bands %}
+        <div class="band-section">
+            <h2>{{ band.name }}</h2>
+            <p>Formed: {{ band.year }} | Genre: {{ band.get_genre_display }} | Active: {{ band.still_active|yesno:"Yes,No" }}</p>
+        </div>
+    {% empty %}
+        <p><em>No bands found in database.</em></p>
+    {% endfor %}
+    <form action="" method="post">
+        {% csrf_token %}
+        <label>
+            Band Name:
+            <input type="text" name="name">
+        </label>
+        <label>
+            Year Founded:
+            <input type="text" name="year">
+        </label>
+        <label>
+            Still Active:
+            <input type="radio" name="is_active" value="true">Yes
+            <input type="radio" name="is_active" value="false">No
+        </label>
+        <label>Genre:
+            <select name="genre" required>
+                <option value="">-- Select a Genre --</option>
+                <option value="-1">Not defined</option>
+                <option value="0">Rock</option>
+                <option value="1">Metal</option>
+                <option value="2">Pop</option>
+                <option value="3">Hip-Hop</option>
+                <option value="4">Electronic</option>
+                <option value="5">Reggae</option>
+                <option value="6">Other</option>
+                </select>
+        </label>
+        <button type="submit">Submit</button>
+    </form>
+    {% if messages %}
+        <div class="messages-container" style="margin-top: 15px;">
+            {% for message in messages %}
+                <p style="font-weight: bold; {% if message.tags == 'success' %}color: green;{% else %}color: red;{% endif %}">
+                    {{ message }}
+                </p>
+            {% endfor %}
+        </div>
+    {% endif %}
+</body>
+</html>
