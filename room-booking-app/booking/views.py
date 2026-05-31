@@ -2,9 +2,11 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views import View
 from .models import Room
-
-def home_view(request):
-    return render(request, 'base.html')
+class HomeView(View):
+    def get(self, request):
+        rooms = Room.objects.all()
+        print(rooms)
+        return render(request, 'base.html', {'rooms': rooms})
 class AddNewRoom(View):
     def get(self, request):
         return render(request, 'add-room-form.html')
@@ -29,5 +31,3 @@ class AddNewRoom(View):
         else:
             messages.error(request, "Capacity must be greater than 0.")
             return render(request, 'add-room-form.html')
-        
-
