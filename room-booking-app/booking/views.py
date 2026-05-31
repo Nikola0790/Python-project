@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.views import View
-from .models import Room
+from datetime import date
+from .models import Room, Booking
+
 class HomeView(View):
     def get(self, request):
         rooms = Room.objects.all().order_by('id')
@@ -66,3 +68,31 @@ class ModifyRoom(View):
         else:
             messages.error(request, "Capacity must be greater than 0.")
             return render(request, 'edit-room-form.html')
+
+class BookingRoom(View):
+    def get(self, request, id):
+        room = get_object_or_404(Room, id=id)
+        return render(request, 'booking-form.html', {'room': room})
+
+    def post(self, request, id):
+        room = get_object_or_404(Room, id=id)
+        
+        booking_date_str = request.POST.get('date')
+        comment = request.POST.get('comment')
+
+        if not booking_date_str:
+            messages.error(request, "Please select a date.")
+            return render(request, 'booking-form.html', {'room': room})
+        
+        booking_date = date.fromisoformat(booking_date_str)
+        if booking_date < date.today():
+            messages.error(request, "You cannot book a room for a past date!")
+            return render(request, 'booking-form.html', {'room': room})
+        
+        is_already_booked = Booking.objects.filter(room=room, date=booking_date).exists()
+        if is_already_booked:
+            messages.error(request, f"The room '{room.name}' is already booked for this day.")
+            return render(request, 'booking-form.html', {'room': room})
+        
+        Booking.objects.create(date=booking_date, room=room, comment=comment)
+        return redirect('home')

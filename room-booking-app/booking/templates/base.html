@@ -149,9 +149,9 @@
                 <div class="room-section">
                     <h2>{{room.name}}</h2>
                     <p>Capacity: {{room.capacity}} | Projector: {{room.projector_availability}} | Room availability: - </p>
-                    <a href="/room/modify/{{room.id}}" class="btn-primary">Edit</a>
+                    <a href="room/modify/{{room.id}}" class="btn-primary">Edit</a>
                     <a href="room/delete/{{room.id}}" class="btn-primary">Delete</a>
-                    <a href="" class="btn-primary">Book</a>
+                    <a href="room/reserve/{{room.id}}" class="btn-primary">Book</a>
                 </div>
             {% empty %}
                 <p><em>No rooms found in database.</em></p>
