@@ -31,3 +31,8 @@ class AddNewRoom(View):
         else:
             messages.error(request, "Capacity must be greater than 0.")
             return render(request, 'add-room-form.html')
+
+class DeleteRoom(View):
+    def get(self, request, id):
+        Room.objects.filter(id=id).delete()
+        return redirect('home')
