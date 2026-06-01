@@ -28,6 +28,14 @@
                 transform: scale(0.98);
             }
 
+            .booked {
+                color: red;
+            }
+
+            .available {
+                color: green;
+            }
+
             .site-footer {
                 background-color: #1a1a1a;
                 color: #e0e0e0;
@@ -149,6 +157,21 @@
                 <div class="room-section">
                     <h2>{{room.name}}</h2>
                     <p>Capacity: {{room.capacity}} | Projector: {{room.projector_availability}} | Room availability: - </p>
+                    {% if room.is_booked_today %}
+                        <p><strong class="booked">Room is booked today</strong>.</p>
+                    {% else %}
+                        <p class="available">Available today</p>
+                    {% endif %}
+                    <h4>Reservations for this room:</h4>
+                    <ul>
+                        {% for booking in room.bookings.all %}
+                            <li>
+                                <strong>{{ booking.date }}</strong> - {{ booking.comment|default:"No comment added" }}
+                            </li>
+                        {% empty %}
+                            <li class="text-muted">No current bookings for this room.</li>
+                        {% endfor %}
+                    </ul>
                     <a href="room/modify/{{room.id}}" class="btn-primary">Edit</a>
                     <a href="room/delete/{{room.id}}" class="btn-primary">Delete</a>
                     <a href="room/reserve/{{room.id}}" class="btn-primary">Book</a>
