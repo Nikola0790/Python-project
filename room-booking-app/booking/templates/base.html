@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Base</title>
+        <style>
+            .room-section { margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 15px; font-size: 18px; }
+            .btn-primary {
+                text-decoration: none;
+                display: inline-block;
+                padding: 10px 20px;
+                border-radius: 6px;
+                font-weight: 600;
+                font-size: 16px;
+                font-family: sans-serif;
+                text-align: center;
+                cursor: pointer;
+                background-color: #007bff;
+                color: #ffffff;
+                transition: background-color 0.2s ease-in-out, transform 0.1s ease;
+            }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+            }
+
+            .btn-primary:active {
+                transform: scale(0.98);
+            }
+
+            .booked {
+                color: red;
+            }
+
+            .available {
+                color: green;
+            }
+
+            .site-footer {
+                background-color: #1a1a1a;
+                color: #e0e0e0;
+                padding: 40px 20px 20px 20px;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+
+            .footer-container {
+                max-width: 1100px;
+                margin: 0 auto;
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 40px;
+                padding-bottom: 30px;
+                border-bottom: 1px solid #333;
+            }
+
+            .footer-section h3 {
+                color: #ffffff;
+                font-size: 18px;
+                margin-bottom: 15px;
+                font-weight: 600;
+            }
+
+            .footer-section .tagline {
+                color: #007bff; /* Accent color for your title */
+                font-weight: bold;
+                margin-top: -10px;
+                margin-bottom: 10px;
+            }
+
+            .footer-section .bio {
+                font-size: 14px;
+                line-height: 1.6;
+                color: #a0a0a0;
+            }
+
+            .footer-section ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            .footer-section ul li {
+                margin-bottom: 10px;
+            }
+
+            .footer-section a {
+                color: #a0a0a0;
+                text-decoration: none;
+                font-size: 14px;
+                transition: color 0.2s ease;
+            }
+
+            .footer-section a:hover {
+                color: #007bff;
+            }
+
+            .social-icons {
+                margin-top: 15px;
+            }
+
+            .social-icons a {
+                display: inline-block;
+                margin-right: 15px;
+                background-color: #2a2a2a;
+                color: #ffffff;
+                padding: 6px 12px;
+                border-radius: 4px;
+                font-size: 13px;
+            }
+
+            .social-icons a:hover {
+                background-color: #007bff;
+                color: #ffffff;
+            }
+
+            .footer-bottom {
+                text-align: center;
+                padding-top: 20px;
+                font-size: 13px;
+                color: #777;
+            }
+
+            .footer-section.tech-stack {
+                max-width: 320px; /* Limits width to keep the layout compact */
+            }
+
+            .tech-tags {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px; /* Spacing between badges */
+                margin-top: 10px;
+            }
+
+            .tech-tags span {
+                background-color: #252526;
+                color: #007bff; 
+                font-size: 12px;
+                font-weight: 600;
+                font-family: monospace;
+                padding: 4px 10px;
+                border-radius: 4px;
+                border: 1px solid #333;
+                transition: all 0.2s ease-in-out;
+            }
+
+            .tech-tags span:hover {
+                background-color: #007bff;
+                color: #ffffff;
+                border-color: #007bff;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Home Page</h1>
+        <div>
+            <form method="get" action="/search">
+                <h3>SEARCH ROOM</h3>
+                <div>
+                    <label for="name">Room Name:</label>
+                    <input type="text" id="name" name="name">
+                </div>
+
+                <div>
+                    <label for="capacity">Minimum Capacity Needed:</label>
+                    <input type="number" id="capacity" name="capacity" value="10" min="1" step="1">
+                </div>
+
+                <div>
+                    <label for="hasProjector">Has Projector:</label>
+                    <input type="checkbox" id="hasProjector" name="hasProjector">
+                </div>
+
+                <button type="submit">Search</button>
+            </form>
+        </div>
+        <div>
+            {% for room in rooms %}
+                <div class="room-section">
+                    <h2>{{room.name}}</h2>
+                    <p>Capacity: {{room.capacity}} | Projector: {{room.projector_availability}} | Room availability: - </p>
+                    {% if room.is_booked_today %}
+                        <p><strong class="booked">Room is booked today</strong>.</p>
+                    {% else %}
+                        <p class="available">Available today</p>
+                    {% endif %}
+                    <h4>Reservations for this room:</h4>
+                    <ul>
+                        {% for booking in room.bookings.all %}
+                            <li>
+                                <strong>{{ booking.date }}</strong> - {{ booking.comment|default:"No comment added" }}
+                            </li>
+                        {% empty %}
+                            <li class="text-muted">No current bookings for this room.</li>
+                        {% endfor %}
+                    </ul>
+                    <a href="room/modify/{{room.id}}" class="btn-primary">Edit</a>
+                    <a href="room/delete/{{room.id}}" class="btn-primary">Delete</a>
+                    <a href="room/reserve/{{room.id}}" class="btn-primary">Book</a>
+                </div>
+            {% empty %}
+                <p><em>No rooms found in database.</em></p>
+            {% endfor %}
+        </div>
+        <a class="btn-primary" href='room/new/'>Add new room</a>
+        <footer class="site-footer">
+            <div class="footer-container">
+                <div class="footer-section about">
+                    <h3>Nikola</h3>
+                    <p class="tagline">Full Stack Developer</p>
+                    <p class="bio">Building robust, scalable web applications from database architecture to sleek user interfaces. Based in Belgrade.</p>
+                </div>
+
+                <div class="footer-section tech-stack">
+                    <h3>Tech Stack</h3>
+                    <div class="tech-tags">
+                        <span>JavaScript</span>
+                        <span>TypeScript</span>
+                        <span>React</span>
+                        <span>jQuery</span>
+                        <span>Python</span>
+                        <span>Django</span>
+                        <span>PostgreSQL</span>
+                        <span>HTML</span>
+                        <span>CSS</span>
+                        <span>SCSS</span>
+                        <span>Tailwind</span>
+                        <span>Storybook</span>
+                        <span>ReactQuery</span>
+                        <span>Git</span>
+                        <span>Jira</span>
+                    </div>
+                </div>
+
+                <div class="footer-section contact">
+                    <h3>Connect</h3>
+                    <p class="email-link">
+                        Email: <a href="mailto:nikola.drcalic@gmail.com">nikola.drcalic@gmail.com</a>
+                    </p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Nikola. All rights reserved.</p>
+            </div>
+        </footer>
+    </body>
+</html>

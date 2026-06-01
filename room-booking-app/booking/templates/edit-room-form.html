@@ -1,0 +1,39 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Edit Room</title>
+    </head>
+    <body>
+        <h2>Edit Room: {{ room.name }}</h2>
+        {% if messages %}
+        <div class="messages-container" style="margin-top: 15px;">
+                {% for message in messages %}
+                    <p style="font-weight: bold; {% if message.tags == 'success' %}color: green;{% else %}color: red;{% endif %}">
+                        {{ message }}
+                    </p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            <div>
+                <label for="name">Room Name:</label>
+                <input type="text" id="name" name="name" value="{{ room.name }}">
+            </div>
+
+            <div>
+                <label for="capacity">Capacity:</label>
+                <input type="number" id="capacity" name="capacity" value="{{ room.capacity }}" required>
+            </div>
+
+            <div>
+                <label for="hasProjector">Has Projector:</label>
+                <input type="checkbox" id="hasProjector" name="hasProjector" value="true" 
+                    {% if room.projector_availability %}checked{% endif %}>
+            </div>
+
+            <button type="submit">Save Changes</button>
+        </form>
+    </body>
+</html>
