@@ -153,6 +153,27 @@
     <body>
         <h1>Home Page</h1>
         <div>
+            <form method="get" action="/search">
+                <h3>SEARCH ROOM</h3>
+                <div>
+                    <label for="name">Room Name:</label>
+                    <input type="text" id="name" name="name">
+                </div>
+
+                <div>
+                    <label for="capacity">Minimum Capacity Needed:</label>
+                    <input type="number" id="capacity" name="capacity" value="10" min="1" step="1">
+                </div>
+
+                <div>
+                    <label for="hasProjector">Has Projector:</label>
+                    <input type="checkbox" id="hasProjector" name="hasProjector">
+                </div>
+
+                <button type="submit">Search</button>
+            </form>
+        </div>
+        <div>
             {% for room in rooms %}
                 <div class="room-section">
                     <h2>{{room.name}}</h2>

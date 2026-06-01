@@ -96,3 +96,22 @@ class BookingRoom(View):
         
         Booking.objects.create(date=booking_date, room=room, comment=comment)
         return redirect('home')
+    
+class SearchRoom(View):
+    def get(self, request):
+        name = request.GET.get('name')
+        capacity = request.GET.get('capacity')
+        projector = request.GET.get('hasProjector') == 'true'
+
+        rooms_match = Room.objects.all().order_by('id')
+
+        if name:
+            rooms_match = rooms_match.filter(name__icontains=name)
+
+        if capacity:
+            rooms_match = rooms_match.filter(capacity__gte=int(capacity))
+
+        if projector:
+            rooms_match = rooms_match.filter(projector_availability=True)
+
+        return render(request, 'base.html', {'rooms': rooms_match})
